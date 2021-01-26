@@ -20,11 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-FROM ubuntu:bionic
+FROM nvcr.io/nvidia/l4t-base:r32.4.4
 
 # This determines what <SOC> gets filled in in the nvidia apt sources list:
 # valid choices: t210, t186, t194
-ARG SOC="t210"
+ARG SOC="t194"
 
 WORKDIR /tmp
 # install apt key and configure apt sources
@@ -36,3 +36,5 @@ RUN chmod 644 /etc/apt/trusted.gpg.d/jetson-ota-public.asc \
     && echo "deb https://repo.download.nvidia.com/jetson/${SOC} r32 main" >> /etc/apt/sources.list.d/nvidia-l4t-apt-source.list \
     && rm -rf /var/lib/apt/lists/*
 # leaving ca-certificates because otherwise https sources like nvidia's will complain on apt-get.
+
+RUN apt install -y nvidia-jetpack
